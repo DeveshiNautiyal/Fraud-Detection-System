@@ -159,7 +159,7 @@ fraud_detection/
 
 ---
 
-## 🧠 Machine Learning Approach
+##  Machine Learning Approach
 
 | Step | Details |
 |---|---|
