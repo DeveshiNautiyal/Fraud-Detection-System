@@ -2,8 +2,7 @@
 
 A full-stack Machine Learning web application that predicts whether a
 financial transaction is **Genuine** or **Fraudulent**, trained on a real,
-1.85-million-row Kaggle dataset. Built as a placement/major project for
-B.Tech CSE, with a live, auto-refreshing dashboard.
+1.85-million-row Kaggle dataset with a live, auto-refreshing dashboard.
 
 Live Demo : https://fraud-detection-system-i7j0.onrender.com/batch-predict
 
