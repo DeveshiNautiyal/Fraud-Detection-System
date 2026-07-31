@@ -297,6 +297,6 @@ To get a public URL instead of running locally:
 
 ## Author
 
-Build during internship,aeansuring
+Build during internship.Ensuring
 end-to-end Machine Learning and full-stack web development skills.
 Deveshi Nautiyal
