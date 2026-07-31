@@ -1,13 +1,15 @@
-# 🛡️ Financial Fraud Detection System
+#  Financial Fraud Detection System
 
 A full-stack Machine Learning web application that predicts whether a
 financial transaction is **Genuine** or **Fraudulent**, trained on a real,
 1.85-million-row Kaggle dataset. Built as a placement/major project for
 B.Tech CSE, with a live, auto-refreshing dashboard.
 
+Live Demo : https://fraud-detection-system-i7j0.onrender.com/batch-predict
+
 ---
 
-## 📌 Project Overview
+## Project Overview
 
 This project demonstrates a complete, production-style ML pipeline:
 
@@ -23,7 +25,7 @@ This project demonstrates a complete, production-style ML pipeline:
 
 ---
 
-## 📊 Dataset
+## Dataset
 
 **[Credit Card Transactions Fraud Detection Dataset](https://www.kaggle.com/datasets/kartik2112/fraud-detection)**
 by Kartik Shenoy (Kaggle) — a simulated but realistic dataset of 1.85 million
@@ -68,7 +70,7 @@ selection.
 
 ---
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 fraud_detection/
@@ -107,7 +109,7 @@ fraud_detection/
 
 ---
 
-## ⚙️ Installation Steps
+## Installation Steps
 
 1. **Clone the repository**
    ```bash
@@ -132,7 +134,7 @@ fraud_detection/
 
 ---
 
-## ▶️ How to Run
+##  How to Run
 
 1. **Train the model** (takes a few minutes on the full 1.85M rows):
    ```bash
@@ -177,7 +179,7 @@ fraud_detection/
 
 | Model | Accuracy | Precision | Recall | F1 | ROC-AUC | PR-AUC |
 |---|---|---|---|---|---|---|
-| **Random Forest** ⭐ | 0.9966 | 0.616 | 0.906 | **0.733** | 0.997 | 0.886 |
+| **Random Forest**  | 0.9966 | 0.616 | 0.906 | **0.733** | 0.997 | 0.886 |
 | XGBoost | 0.9917 | 0.382 | 0.961 | 0.547 | 0.999 | 0.926 |
 | Decision Tree | 0.9799 | 0.201 | 0.965 | 0.333 | 0.984 | 0.875 |
 | Logistic Regression | 0.9470 | 0.072 | 0.771 | 0.132 | 0.864 | 0.186 |
@@ -196,7 +198,7 @@ material. See `PROJECT_HIGHLIGHTS.md` for ready-to-use talking points.
 
 ---
 
-## 📈 Live Dashboard
+## Live Dashboard
 
 The dashboard has two layers:
 - **Static training stats** — dataset size, ROC-AUC, PR-AUC, tuned decision
@@ -214,7 +216,7 @@ The dashboard has two layers:
 
 ---
 
-## 📤 Batch Prediction (CSV Upload)
+## Batch Prediction (CSV Upload)
 
 Beyond scoring one transaction at a time, `/batch-predict` lets you upload
 a CSV of many transactions and score all of them in one go:
@@ -232,7 +234,7 @@ disagree with each other.
 
 ---
 
-## 🖼️ Screenshots
+## Screenshots
 
 > _Add screenshots after running the app locally:_
 
@@ -242,7 +244,7 @@ disagree with each other.
 
 ---
 
-## 🚀 Future Improvements
+##  Future Improvements
 
 - Add SMOTE/undersampling as an alternative to `class_weight` for imbalance
 - Add authentication for the dashboard
@@ -252,7 +254,7 @@ disagree with each other.
 
 ---
 
-## 🌐 Deploying Live (Render)
+##  Deploying Live (Render)
 
 To get a public URL instead of running locally:
 
