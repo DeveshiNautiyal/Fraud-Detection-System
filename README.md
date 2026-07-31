@@ -55,7 +55,7 @@ selection.
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 | Category | Technology |
 |---|---|
@@ -295,7 +295,8 @@ To get a public URL instead of running locally:
 
 ---
 
-## 👨‍💻 Author
+## Author
 
-Built as a placement-preparation / major project to demonstrate practical,
+Build during internship,aeansuring
 end-to-end Machine Learning and full-stack web development skills.
+Deveshi Nautiyal
