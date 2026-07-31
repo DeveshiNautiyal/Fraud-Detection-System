@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Flask
+instance/
+.flaskenv
+
+# Trained model artifacts ARE committed (needed for deployment - the host
+# won't have your 1.85M-row CSVs to retrain from). Regenerate locally with
+# train_model.py if you want fresh ones; git will just see them as changed.
+
+# Raw dataset CSVs (too large for GitHub/deployment - download from Kaggle instead)
+dataset/*.csv
+
+# Database (regenerated automatically by the app)
+fraud.db
+
+# Logs
+flask.log
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

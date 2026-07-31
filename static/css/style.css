@@ -1,0 +1,97 @@
+/* Custom styling on top of Bootstrap for the Fraud Detection System */
+
+:root {
+    --navy: #0f1b3d;
+    --navy-light: #1c2f5e;
+    --accent: #2f6fed;
+    --danger: #e74c3c;
+    --success: #22a55d;
+}
+
+body {
+    background-color: #f4f6fb;
+}
+
+.custom-navbar {
+    background-color: var(--navy);
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    color: white;
+}
+
+.feature-card {
+    border: none;
+    border-radius: 14px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(15, 27, 61, 0.12) !important;
+}
+
+.feature-icon {
+    font-size: 2rem;
+    color: var(--accent);
+}
+
+.step-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.stat-card {
+    border: none;
+    border-radius: 14px;
+}
+
+.result-card {
+    border: none;
+    border-radius: 18px;
+    border-top: 6px solid var(--accent);
+}
+
+.result-fraud {
+    border-top-color: var(--danger);
+}
+
+.result-genuine {
+    border-top-color: var(--success);
+}
+
+.result-icon {
+    font-size: 3rem;
+}
+
+.live-badge {
+    animation: pulse 1.6s infinite;
+}
+
+@keyframes pulse {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.footer-bar {
+    background-color: var(--navy);
+    color: #cfd8e3;
+}
+
+.card img {
+    max-height: 260px;
+    object-fit: contain;
+}

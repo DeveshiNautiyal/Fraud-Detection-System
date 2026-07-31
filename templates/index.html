@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Home - Fraud Detection System{% endblock %}
+
+{% block content %}
+<div class="text-center hero-section p-5 rounded-4 mb-5">
+    <h1 class="display-5 fw-bold">Financial Fraud Detection System</h1>
+    <p class="lead mt-3 mx-auto" style="max-width: 700px;">
+        A Machine Learning powered web application that analyzes real transaction
+        patterns — spending amount, merchant category, location, and timing — to
+        predict whether a transaction is <strong>Genuine</strong> or <strong>Fraudulent</strong>
+        in real time.
+    </p>
+    <a href="/predict" class="btn btn-lg btn-primary mt-3 px-4">
+        <i class="bi bi-search me-1"></i>Try a Prediction
+    </a>
+    <a href="/dashboard" class="btn btn-lg btn-outline-light mt-3 ms-2 px-4">
+        <i class="bi bi-bar-chart-line me-1"></i>View Live Dashboard
+    </a>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm feature-card">
+            <div class="card-body">
+                <div class="feature-icon mb-3"><i class="bi bi-database-fill-check"></i></div>
+                <h5 class="card-title">Real Kaggle Dataset</h5>
+                <p class="card-text">
+                    Trained on 1.85M+ real, simulated credit card transactions
+                    from the Kaggle "Credit Card Transactions Fraud Detection"
+                    dataset — including merchant category, customer location,
+                    and demographic data.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm feature-card">
+            <div class="card-body">
+                <div class="feature-icon mb-3"><i class="bi bi-cpu-fill"></i></div>
+                <h5 class="card-title">Engineered Features</h5>
+                <p class="card-text">
+                    Raw data is transformed into meaningful signals: customer
+                    <strong>age</strong>, <strong>distance</strong> between customer
+                    &amp; merchant, and the <strong>hour/day</strong> of the transaction
+                    — real feature engineering, not just raw columns.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm feature-card">
+            <div class="card-body">
+                <div class="feature-icon mb-3"><i class="bi bi-graph-up-arrow"></i></div>
+                <h5 class="card-title">4 Models Compared</h5>
+                <p class="card-text">
+                    Logistic Regression, Decision Tree, Random Forest, and
+                    XGBoost were trained and compared on Accuracy, Precision,
+                    Recall, and F1-Score — with class imbalance handled properly.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm p-4 mb-5">
+    <h3 class="mb-3"><i class="bi bi-diagram-3 me-2"></i>How It Works</h3>
+    <div class="row text-center g-4">
+        <div class="col-md-2 col-6">
+            <div class="step-circle mx-auto mb-2">1</div>
+            <p class="small mb-0">Clean &amp; engineer features from raw transaction data</p>
+        </div>
+        <div class="col-md-2 col-6">
+            <div class="step-circle mx-auto mb-2">2</div>
+            <p class="small mb-0">Encode categories &amp; scale numeric features</p>
+        </div>
+        <div class="col-md-2 col-6">
+            <div class="step-circle mx-auto mb-2">3</div>
+            <p class="small mb-0">Train &amp; compare 4 ML models</p>
+        </div>
+        <div class="col-md-2 col-6">
+            <div class="step-circle mx-auto mb-2">4</div>
+            <p class="small mb-0">Select the best model by F1-Score</p>
+        </div>
+        <div class="col-md-2 col-6">
+            <div class="step-circle mx-auto mb-2">5</div>
+            <p class="small mb-0">Save model with Joblib</p>
+        </div>
+        <div class="col-md-2 col-6">
+            <div class="step-circle mx-auto mb-2">6</div>
+            <p class="small mb-0">Serve live predictions via Flask</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Fraud Detection System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-bar-chart-line me-2"></i>Model &amp; Transaction Dashboard</h2>
+    <span class="badge bg-success live-badge"><i class="bi bi-broadcast me-1"></i>LIVE</span>
+</div>
+
+<!-- Stat cards based on the training dataset (fixed, from model_summary.json) -->
+<h5 class="text-muted mb-3">Dataset &amp; Model Stats (from training)</h5>
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Total Transactions</h6>
+                <h3>{{ "{:,}".format(summary.total_transactions) }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Fraud Transactions</h6>
+                <h3 class="text-danger">{{ "{:,}".format(summary.fraud_transactions) }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Genuine Transactions</h6>
+                <h3 class="text-success">{{ "{:,}".format(summary.genuine_transactions) }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Model Accuracy</h6>
+                <h3>{{ (summary.accuracy * 100) | round(2) }}%</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-3 mb-4">
+    <div class="col-md-4 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">ROC-AUC</h6>
+                <h4>{{ summary.roc_auc }}</h4>
+                <p class="small text-muted mb-0">How well the model ranks fraud above genuine, across all thresholds</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">PR-AUC</h6>
+                <h4>{{ summary.pr_auc }}</h4>
+                <p class="small text-muted mb-0">More meaningful than ROC-AUC on this ~0.5% fraud dataset</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Tuned Decision Threshold</h6>
+                <h4>{{ summary.best_threshold }}</h4>
+                <p class="small text-muted mb-0">Optimized to maximize F1, instead of the default 0.5 cutoff</p>
+            </div>
+        </div>
+    </div>
+</div>
+<p class="text-muted">Best Model Selected: <strong>{{ summary.best_model }}</strong> (chosen by highest F1-Score, since the dataset is heavily imbalanced)</p>
+
+<!-- Charts -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3 text-center">
+            <h6>Confusion Matrix</h6>
+            <img src="{{ url_for('static', filename='images/confusion_matrix.png') }}" class="img-fluid" alt="Confusion Matrix">
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3 text-center">
+            <h6>Fraud vs Genuine</h6>
+            <img src="{{ url_for('static', filename='images/bar_chart.png') }}" class="img-fluid" alt="Bar Chart">
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3 text-center">
+            <h6>Class Distribution</h6>
+            <img src="{{ url_for('static', filename='images/pie_chart.png') }}" class="img-fluid" alt="Pie Chart">
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3 text-center">
+            <h6>ROC Curve</h6>
+            <img src="{{ url_for('static', filename='images/roc_curve.png') }}" class="img-fluid" alt="ROC Curve">
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3 text-center">
+            <h6>Precision-Recall Curve</h6>
+            <img src="{{ url_for('static', filename='images/pr_curve.png') }}" class="img-fluid" alt="Precision-Recall Curve">
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3 text-center">
+            <h6>Feature Importance</h6>
+            <img src="{{ url_for('static', filename='images/feature_importance.png') }}" class="img-fluid" alt="Feature Importance">
+        </div>
+    </div>
+</div>
+
+<!-- Model comparison table -->
+<h5 class="text-muted mb-3">Model Comparison (Training Time)</h5>
+<div class="table-responsive mb-5">
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Model</th>
+                <th>Accuracy</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1 Score</th>
+                <th>ROC-AUC</th>
+                <th>PR-AUC</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in summary.all_results %}
+            <tr {% if row.model == summary.best_model %}class="table-success"{% endif %}>
+                <td>
+                    {{ row.model }}
+                    {% if row.model == summary.best_model %}<i class="bi bi-star-fill text-warning ms-1"></i>{% endif %}
+                </td>
+                <td>{{ row.accuracy }}</td>
+                <td>{{ row.precision }}</td>
+                <td>{{ row.recall }}</td>
+                <td>{{ row.f1_score }}</td>
+                <td>{{ row.roc_auc }}</td>
+                <td>{{ row.pr_auc }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- LIVE section: auto-refreshes every 4 seconds via /api/live-stats -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="text-muted mb-0">Live Predictions (from SQLite Database)</h5>
+    <span class="small text-muted" id="last-updated">Updating live...</span>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-md-3 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body py-3">
+                <h6 class="text-muted mb-1">Checked via App</h6>
+                <h4 id="live-total">{{ live_counts.total }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body py-3">
+                <h6 class="text-muted mb-1">Flagged Fraud</h6>
+                <h4 class="text-danger" id="live-fraud">{{ live_counts.fraud }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body py-3">
+                <h6 class="text-muted mb-1">Flagged Genuine</h6>
+                <h4 class="text-success" id="live-genuine">{{ live_counts.genuine }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card text-center stat-card shadow-sm">
+            <div class="card-body py-3">
+                <h6 class="text-muted mb-2">Live Split</h6>
+                <canvas id="live-doughnut" height="60"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Hour</th>
+                <th>Prediction</th>
+                <th>Confidence</th>
+                <th>Date/Time</th>
+            </tr>
+        </thead>
+        <tbody id="live-table-body">
+            {% for row in recent_transactions %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>${{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ 'Male' if row[3] == 'M' else 'Female' }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[6] }}:00</td>
+                <td>
+                    {% if row[7] == "Fraud" %}
+                        <span class="badge bg-danger">Fraud</span>
+                    {% else %}
+                        <span class="badge bg-success">Genuine</span>
+                    {% endif %}
+                </td>
+                <td>{{ row[8] }}%</td>
+                <td>{{ row[9] }}</td>
+            </tr>
+            {% else %}
+            <tr id="empty-row"><td colspan="9" class="text-center">No predictions made yet. Try the Predict page!</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// Live doughnut chart showing the fraud vs genuine split among predictions
+// made through this app so far. Updates every 4 seconds along with the
+// rest of the live dashboard data.
+const doughnutCtx = document.getElementById("live-doughnut").getContext("2d");
+const liveDoughnut = new Chart(doughnutCtx, {
+    type: "doughnut",
+    data: {
+        labels: ["Genuine", "Fraud"],
+        datasets: [{
+            data: [{{ live_counts.genuine }}, {{ live_counts.fraud }}],
+            backgroundColor: ["#22a55d", "#e74c3c"],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        cutout: "65%"
+    }
+});
+
+// Polls the /api/live-stats endpoint every 4 seconds and updates the
+// live counters + doughnut chart + recent predictions table WITHOUT
+// reloading the page.
+function refreshLiveStats() {
+    fetch("/api/live-stats")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("live-total").textContent = data.live_counts.total;
+            document.getElementById("live-fraud").textContent = data.live_counts.fraud;
+            document.getElementById("live-genuine").textContent = data.live_counts.genuine;
+
+            liveDoughnut.data.datasets[0].data = [data.live_counts.genuine, data.live_counts.fraud];
+            liveDoughnut.update();
+
+            const tbody = document.getElementById("live-table-body");
+            tbody.innerHTML = "";
+
+            if (data.recent_transactions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="text-center">No predictions made yet. Try the Predict page!</td></tr>';
+            } else {
+                data.recent_transactions.forEach(tx => {
+                    const genderLabel = tx.gender === "M" ? "Male" : "Female";
+                    const badgeClass = tx.prediction === "Fraud" ? "bg-danger" : "bg-success";
+                    const row = `<tr>
+                        <td>${tx.id}</td>
+                        <td>$${tx.amount}</td>
+                        <td>${tx.category}</td>
+                        <td>${genderLabel}</td>
+                        <td>${tx.age}</td>
+                        <td>${tx.trans_hour}:00</td>
+                        <td><span class="badge ${badgeClass}">${tx.prediction}</span></td>
+                        <td>${tx.confidence}%</td>
+                        <td>${tx.created_at}</td>
+                    </tr>`;
+                    tbody.insertAdjacentHTML("beforeend", row);
+                });
+            }
+
+            document.getElementById("last-updated").textContent =
+                "Last updated: " + new Date().toLocaleTimeString();
+        })
+        .catch(err => console.error("Live stats refresh failed:", err));
+}
+
+// Refresh immediately, then every 4 seconds
+refreshLiveStats();
+setInterval(refreshLiveStats, 4000);
+</script>
+{% endblock %}

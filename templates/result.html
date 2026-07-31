@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Prediction Result - Fraud Detection System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card shadow-sm p-4 text-center result-card {% if prediction_result == 'Fraud' %}result-fraud{% else %}result-genuine{% endif %}">
+
+            {% if prediction_result == "Fraud" %}
+                <div class="result-icon text-danger"><i class="bi bi-exclamation-triangle-fill"></i></div>
+                <h2 class="text-danger mb-2">Fraudulent Transaction Detected</h2>
+            {% else %}
+                <div class="result-icon text-success"><i class="bi bi-patch-check-fill"></i></div>
+                <h2 class="text-success mb-2">Genuine Transaction</h2>
+            {% endif %}
+
+            <p class="fs-5 mb-3">Model Confidence: <strong>{{ confidence }}%</strong></p>
+
+            <div class="progress mb-4" style="height: 22px;">
+                <div class="progress-bar {% if prediction_result == 'Fraud' %}bg-danger{% else %}bg-success{% endif %}"
+                     role="progressbar" style="width: {{ confidence }}%;">
+                    {{ confidence }}%
+                </div>
+            </div>
+
+            <table class="table table-bordered text-start">
+                <tr><th>Amount</th><td>${{ amount }}</td></tr>
+                <tr><th>Category</th><td>{{ category }}</td></tr>
+                <tr><th>Gender</th><td>{{ 'Male' if gender == 'M' else 'Female' }}</td></tr>
+                <tr><th>Age</th><td>{{ age }}</td></tr>
+                <tr><th>City Population</th><td>{{ city_pop }}</td></tr>
+                <tr><th>Hour of Transaction</th><td>{{ trans_hour }}:00</td></tr>
+            </table>
+
+            <div class="mt-2">
+                <a href="/predict" class="btn btn-primary me-2">
+                    <i class="bi bi-arrow-repeat me-1"></i>Check Another Transaction
+                </a>
+                <a href="/dashboard" class="btn btn-outline-secondary">
+                    <i class="bi bi-bar-chart-line me-1"></i>View Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
